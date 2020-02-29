@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Exercícios 1 e 2 - Módulo 2</title>
+  </head>
+  <body>
+    <div>
+      <button onclick="createRedSquare()">Novo Quadrado</button>
+      <div id="squares"></div>
+    </div>
+    <script>
+      var listElement = document.querySelector('#squares');
+
+      function createRedSquare() {
+        var squareElement = document.createElement('div');
+        squareElement.style.width = 100;
+        squareElement.style.height = 100;
+        squareElement.style.backgroundColor = '#F00';
+        squareElement.style.margin = '10px 0';
+        squareElement.onmouseover = function () {
+          squareElement.style.backgroundColor = getRandomColor();
+        }
+        listElement.appendChild(squareElement);
+      }
+
+      function getRandomColor() {
+        var letters = "0123456789ABCDEF";
+        var color = "#";
+        for (var i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,66 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Exercícios 2 e 3 - Módulo 4</title>
+</head>
+<body>
+  <div id="app">
+    <h1>Javascript Starter Rocketseat</h1>
+    <h2>Exercícios 2 e 3 - Módulo 4</h2>
+  
+    <p>Digite um nome de usuário do Github</p>
+    <input type="text" name="user" />
+    <button onclick="searchRepositories()">Adicionar</button>
+
+    <ul></ul>
+  </div>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    var inputElement = document.querySelector('#app input[name="user"]');
+    var listElement = document.querySelector('#app ul');
+
+    function searchRepositories() {
+      var user = inputElement.value;
+      listElement.innerHTML = '';
+
+      if (!user) return;
+
+      loadingList();
+
+      axios.get('https://api.github.com/users/'+ user +'/repos')
+        .then(function(response) {
+          showRepositories(response);
+        })
+        .catch(function(error) {
+          handleError(error);
+        });
+    }
+
+    function loadingList() {
+      var loadingElement = document.createElement('li');
+      var loadingText = document.createTextNode('Carregando...');
+      loadingElement.appendChild(loadingText);
+      listElement.appendChild(loadingElement);
+    }
+
+    function showRepositories(response) {
+      listElement.innerHTML = '';
+      for (repo of response.data) {
+        var itemElement = document.createElement('li');
+        var itemText = document.createTextNode(repo.name);
+        itemElement.appendChild(itemText);
+        listElement.appendChild(itemElement);
+      }
+    }
+
+    function handleError(error) {
+      listElement.innerHTML = '';
+      console.warn(error);
+      var errorElement = document.createElement('li');
+      var errorText = document.createTextNode('Usuário não encontrado');
+      errorElement.appendChild(errorText);
+      listElement.appendChild(errorElement);
+    }
+  </script>
+</body>
+</html>
